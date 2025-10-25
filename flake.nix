@@ -22,6 +22,6 @@
     app.${system}.disco = {
       type = "app";
       program = "${disco.packages.${system}.disco}/bin/disco";
-    }
+    };
   };
 }
