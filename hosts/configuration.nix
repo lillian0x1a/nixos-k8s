@@ -9,16 +9,6 @@
     hostName = "${specialArgs.hostname}";
     firewall.allowedTCPPorts = [ 6443 9443 10250 ];
   };
-  fileSystems."/" = {
-    device = "LABEL=ROOT-BTRFS";
-    fsType = "btrfs";
-    options = [ "rw" "noatime" "compress=zstd:3" "space_cache=v2" "autodefrag" ];
-  };
-  fileSystems."/boot" = {
-    device = "LABEL=EFI-SYSTEM";
-    fsType = "vfat";
-    options = [ "defaults" ];
-  };
   services.openssh = {
     enable = true;
     settings = {

@@ -11,20 +11,29 @@
       hostname = "node";
     in
   {
+    nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { hostname = "iso"; };
+      modules = [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        ./hosts/configuration.nix
+        {
+          environment.systemPackages = with pkgs; [
+            disko.packages.${system}.disko
+          ];
+        }
+      ];
+    };
     nixosConfigurations = {
       "${hostname}" = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit hostname; };
         modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
           disko.nixosModules.disko
+          ./hosts/disko.nix
           ./hosts/configuration.nix
         ];
       };
-    };
-    app.${system}.disko = {
-      type = "app";
-      program = "${disko.packages.${system}.disko}/bin/disko";
     };
   };
 }
