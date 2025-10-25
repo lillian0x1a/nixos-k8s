@@ -14,7 +14,9 @@
     nixosConfigurations = {
       "${hostname}" = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit hostname; };
         modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
           disko.nixosModules.disko
           ./hosts/configuration.nix
         ];

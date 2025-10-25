@@ -1,11 +1,12 @@
-{config, pkgs, ...}:{
+{config, pkgs, specialArgs, ...}:{
   imports = [];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
   networking = {
-    hostName = "node";
+    hostName = "${specialArgs.hostname}";
     firewall.allowedTCPPorts = [ 6443 9443 10250 ];
   };
   fileSystems."/" = {
@@ -26,7 +27,7 @@
     };
   };
   environment.systemPackages = with pkgs; [
-    vim
+    neovim
     git
     jq
     curl
