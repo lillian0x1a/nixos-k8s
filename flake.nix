@@ -2,26 +2,27 @@
   description = "A NixOS-based Kubernetes cluster with Disco";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    disco.url = "github:nix-community/disco";
+    disko.url = "github:nix-community/disko";
   };
-  outputs = { self, nixpkgs, disco, ... }:
+  outputs = { self, nixpkgs, disko, ... }:
     let
       system = "x86_64-linux";
-      pkgs = import mixpkgs { inherit system; };
+      pkgs = import nixpkgs { inherit system; };
+      hostname = "node";
     in
   {
     nixosConfigurations = {
-      node = nixpkgs.lib.nixosSystem {
+      "${hostname}" = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          disco.nixosModules.disco
+          disko.nixosModules.disko
           ./hosts/configuration.nix
         ];
       };
     };
-    app.${system}.disco = {
+    app.${system}.disko = {
       type = "app";
-      program = "${disco.packages.${system}.disco}/bin/disco";
+      program = "${disko.packages.${system}.disko}/bin/disko";
     };
   };
 }

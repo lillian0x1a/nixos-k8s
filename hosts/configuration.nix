@@ -20,8 +20,10 @@
   };
   services.openssh = {
     enable = true;
-    permitRootLogin = "prohibit-password";
-    passwordAuthentication = false;
+    settings = {
+      # permitRootLogin = "no";
+      # passwordAuthentication = "no";
+    };
   };
   environment.systemPackages = with pkgs; [
     vim
@@ -31,4 +33,5 @@
   ];
   security.sudo.wheelNeedsPassword = false;
   system.autoUpgrade.enable = false;
+  system.stateVersion = "25.05";
 }
